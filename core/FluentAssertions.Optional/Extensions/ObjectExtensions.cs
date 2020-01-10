@@ -6,7 +6,8 @@ namespace FluentAssertions.Optional.Extensions
     public static class ObjectExtensions
     {
         public static void AssertEquality<TExpected, TValue>(this object? value, TExpected expected,
-            Func<EquivalencyAssertionOptions<TValue>, EquivalencyAssertionOptions<TValue>> config, string? because = null,
+            Func<EquivalencyAssertionOptions<TValue>, EquivalencyAssertionOptions<TValue>> config,
+            string? because = null,
             params object[] becauseArgs)
         {
             var assertionOptions = config(AssertionOptions.CloneDefaults<TValue>()).AsCollection();
@@ -20,7 +21,7 @@ namespace FluentAssertions.Optional.Extensions
                 BecauseArgs = becauseArgs,
                 Tracer = assertionOptions.TraceWriter
             };
-            
+
             new EquivalencyValidator(assertionOptions).AssertEquality(context);
         }
     }

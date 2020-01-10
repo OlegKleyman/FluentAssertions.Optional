@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 using FluentAssertions.Optional.Extensions;
@@ -27,7 +26,9 @@ namespace FluentAssertions.Optional
             HasValueEquivalentTo(value, options => options, because, becauseArgs);
         }
 
-        public void HasValueEquivalentTo<TExpected>(TExpected value, Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "", params object[] becauseArgs)
+        public void HasValueEquivalentTo<TExpected>(TExpected value,
+            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
+            params object[] becauseArgs)
         {
             Subject.Match(arg => arg.AssertEquality(value, config, because, becauseArgs),
                 () => Execute.Assertion.BecauseOf(because, becauseArgs).FailWith("Option does not have a value."));

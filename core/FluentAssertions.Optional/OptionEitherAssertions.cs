@@ -28,19 +28,23 @@ namespace FluentAssertions.Optional
             HasValueEquivalentTo(value, options => options, because, becauseArgs);
         }
 
-        public void HasValueEquivalentTo<TExpected>(TExpected value, Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
+        public void HasValueEquivalentTo<TExpected>(TExpected value,
+            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
             params object[] becauseArgs)
         {
-            Subject.Match(arg => arg.AssertEquality(value, config,because,becauseArgs),
+            Subject.Match(arg => arg.AssertEquality(value, config, because, becauseArgs),
                 _ => Execute.Assertion.BecauseOf(because, becauseArgs).FailWith("Option does not have a value."));
         }
 
-        public void HasExceptionEquivalentTo<TExpected>(TExpected value, string because = "", params object[] becauseArgs)
+        public void HasExceptionEquivalentTo<TExpected>(TExpected value, string because = "",
+            params object[] becauseArgs)
         {
             HasExceptionEquivalentTo(value, options => options, because, becauseArgs);
         }
 
-        public void HasExceptionEquivalentTo<TExpected>(TExpected value, Func<EquivalencyAssertionOptions<TException>, EquivalencyAssertionOptions<TException>> config, string because = "",
+        public void HasExceptionEquivalentTo<TExpected>(TExpected value,
+            Func<EquivalencyAssertionOptions<TException>, EquivalencyAssertionOptions<TException>> config,
+            string because = "",
             params object[] becauseArgs)
         {
             Subject.Match(arg => Execute.Assertion.BecauseOf(because, becauseArgs).FailWith("Option has a value."),
