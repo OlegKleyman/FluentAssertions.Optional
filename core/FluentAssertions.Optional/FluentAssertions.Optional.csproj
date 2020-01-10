@@ -13,8 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AlphaDev.Optional.Extensions" Version="0.0.0.8" />
-    <PackageReference Include="FluentAssertions" Version="5.9.0" />
+    <PackageReference Include="AlphaDev.Optional.Extensions" Version="0.0.0.13" />
+    <PackageReference Include="FluentAssertions" Version="5.10.0" />
     <PackageReference Include="Optional" Version="5.0.0-alpha" />
   </ItemGroup>
 
