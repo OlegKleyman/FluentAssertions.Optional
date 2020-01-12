@@ -4,7 +4,6 @@ using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 using FluentAssertions.Optional.Extensions;
 using Optional;
-using Optional.Unsafe;
 
 namespace FluentAssertions.Optional
 {
@@ -17,10 +16,9 @@ namespace FluentAssertions.Optional
         public AndWhichConstraint<OptionAssertions<T, TException>, T> HaveSome(string because = "",
             params object[] becauseArgs)
         {
-            Execute.Assertion.BecauseOf(because, becauseArgs)
-                   .ForCondition(Subject.HasValue)
-                   .FailWith("Option does not have a value.");
-            return new AndWhichConstraint<OptionAssertions<T, TException>, T>(this, Subject.ValueOrFailure());
+            return Subject.Map(arg => new AndWhichConstraint<OptionAssertions<T, TException>, T>(this, arg))
+                          .MapException(exception => Execute.Assertion.BecauseOf(because, becauseArgs))
+                          .ValueOrFailure(exception => exception.FailWith("Option does not have a value."));
         }
 
         public void HasValueEquivalentTo<TExpected>(TExpected value, string because = "", params object[] becauseArgs)
@@ -54,12 +52,10 @@ namespace FluentAssertions.Optional
         public AndWhichConstraint<OptionAssertions<T, TException>, TException> BeNone(string because = "",
             params object[] becauseArgs)
         {
-            Execute.Assertion.BecauseOf(because, becauseArgs)
-                   .ForCondition(!Subject.HasValue)
-                   .FailWith("Option has a value.");
-
-            return new AndWhichConstraint<OptionAssertions<T, TException>, TException>(this,
-                Subject.ExceptionOrFailure());
+            return Subject.MapException(arg =>
+                              new AndWhichConstraint<OptionAssertions<T, TException>, TException>(this, arg))
+                          .Map(arg => Execute.Assertion.BecauseOf(because, becauseArgs))
+                          .ExceptionOrFailure(scope => scope.FailWith("Option has a value."));
         }
     }
 }
